@@ -19,6 +19,8 @@ void allControl() {
   digitalWrite(Left_Pin, HIGH);
   digitalWrite(Right_Pin, HIGH);
   digitalWrite(Back_Pin, LOW);
+  
+  stateNumber = 5;
 }
 
 void topFrontControl() {
@@ -39,6 +41,7 @@ void topFrontControl() {
   digitalWrite(Right_Pin, LOW);
   digitalWrite(Back_Pin, LOW);
   
+  stateNumber = 0;
 }
 
 void bottomFrontControl() {
@@ -59,7 +62,9 @@ void bottomFrontControl() {
   digitalWrite(Right_Pin, LOW);
   digitalWrite(Back_Pin, LOW);
   
+  stateNumber = 1;
 }
+
 void leftControl() {
   Serial.println("Left Control");
   
@@ -69,7 +74,9 @@ void leftControl() {
   digitalWrite(Right_Pin, LOW);
   digitalWrite(Back_Pin, LOW);
   
+  stateNumber = 2;
 }
+
 void rightControl() {
   Serial.println("Right Control");
   
@@ -88,6 +95,7 @@ void rightControl() {
   digitalWrite(Right_Pin, HIGH);
   digitalWrite(Back_Pin, LOW);
   
+  stateNumber = 3;
 }
 
 void backControl() {
@@ -108,5 +116,6 @@ void backControl() {
   digitalWrite(Right_Pin, LOW);
   digitalWrite(Back_Pin, HIGH);
   
+  stateNumber = 4;
 }
 

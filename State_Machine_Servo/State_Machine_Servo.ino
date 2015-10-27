@@ -11,12 +11,18 @@ State Machine for Prothesis Anti-Robot's Spotlights
 
 //initalize yaw servo
 VarSpeedServo YawServo;
+VarSpeedServo YawServo_2;
+VarSpeedServo YawServo_3;
+VarSpeedServo YawServo_4;
 const int servoPinYaw_TF = 9;
 const int servoPinYaw_BF = 10;
 
 //initialize pitch servo
 VarSpeedServo PitchServo;
-const int servoPinPitch_TF = 14;
+VarSpeedServo PitchServo_2;
+VarSpeedServo PitchServo_3;
+VarSpeedServo PitchServo_4;
+const int servoPinPitch_TF = 3;
 
 //Initialize States
 State All = State(allControl);
@@ -42,7 +48,9 @@ const int joyPinPitch = A1;
 int sensorRead = 0;
 int motorSpeed = 0;
 
-//
+//state number
+volatile byte stateNumber = 0;
+volatile byte statePowerPin[] = {24,26,28,30,32};
 
 void setup()
 {
@@ -51,13 +59,20 @@ void setup()
   //Joystick Setup
   pinMode(joyPinYaw,INPUT);
   
-  Serial.println(YawServo.attach(servoPinYaw_TF));
-  Serial.println(PitchServo.attach(servoPinPitch_TF));
-  YawServo.write(90,255,true);
-  
+  //Set power pins as OUTPUTs and initialize
+  for(int i = 0; i<sizeof(statePowerPin); i++)
+  {
+    pinMode(statePowerPin[i],OUTPUT);
+    digitalWrite(statePowerPin[i],LOW);
+  }
+    
   //Interrupts for switching states
   attachInterrupt(0,nextStateDEBOUNCE,RISING);  //pin 2 (on the MEGA)
   attachInterrupt(1,prevStateDEBOUNCE,RISING);  //pin 3 (on the MEGA)
+  
+  //Interrupts for turning the light on/off
+  attachInterrupt(2,off_DEBOUNCE,RISING);  //pin 18 (on the MEGA)
+  attachInterrupt(3,on_DEBOUNCE,RISING);   //pin 19 (on the MEGA)
 }
 
 void loop()
