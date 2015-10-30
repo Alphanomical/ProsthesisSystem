@@ -8,6 +8,13 @@ State Machine for Prothesis Anti-Robot's Spotlights
 //Include statements
 #include <FiniteStateMachine.h>
 #include <VarSpeedServo.h>
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+
+//initialize the PWM Driver Board (using default 0x40 addy)
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+#define SERVOMIN 110
+#define SERVOMAX 595
 
 //initalize yaw servo
 VarSpeedServo YawServo;
@@ -16,6 +23,11 @@ VarSpeedServo YawServo_3;
 VarSpeedServo YawServo_4;
 const int servoPinYaw_TF = 9;
 const int servoPinYaw_BF = 10;
+const int servoPinYaw_R = 11;
+const int servoPinYaw_L = 12;
+const int servoPinYaw_B = 13;
+
+volatile int currentPos[] = {90,90,90,90,90};
 
 //initialize pitch servo
 VarSpeedServo PitchServo;
@@ -37,7 +49,7 @@ State Back = State(backControl);
 FSM SpotlightStateMachine = FSM(TopFront);
 
 //debouncing timing
-long debounce_time = 50; //milliseconds
+long debounce_time = 25; //milliseconds
 volatile unsigned long last_time;
 
 //Input for Joystick
@@ -55,6 +67,10 @@ volatile byte statePowerPin[] = {24,26,28,30,32};
 void setup()
 {
   Serial.begin(9600);
+  
+  //pwm board setup
+  pwm.begin();
+  pwm.setPWMFreq(60); //run at ~60Hz
   
   //Joystick Setup
   pinMode(joyPinYaw,INPUT);
@@ -79,6 +95,31 @@ void loop()
 {
   controlJoyStick(YawServo,joyPinYaw);
   
-  delay(10);
+  
+  for(int i = 0; i<sizeof(currentPos); i++)
+  {
+    pwm.setPWM(i,0,map(currentPos[i],0,180,SERVOMIN,SERVOMAX));
+  }
+  
+  
+  printStatements();
+  
+  delay(100);
 }
 
+
+void printStatements(){
+  Serial.print("Current State" );
+  Serial.print(stateNumber);
+  
+  Serial.print("  Positions: ");
+  Serial.print(currentPos[0]);
+  Serial.print(" ");
+  Serial.print(currentPos[1]);
+  Serial.print(" ");
+  Serial.print(currentPos[2]);
+  Serial.print(" ");
+  Serial.print(currentPos[3]);
+  Serial.print(" ");
+  Serial.println(currentPos[4]);
+}

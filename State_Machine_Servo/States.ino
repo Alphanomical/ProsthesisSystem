@@ -13,102 +13,88 @@ const int Back_Pin = 52;
 //utility functions
 void allControl() {
   Serial.println("All Control");
-  
+  stateNumber = 5;
   digitalWrite(TopFront_Pin, HIGH);
   digitalWrite(BottomFront_Pin, LOW);
   digitalWrite(Left_Pin, HIGH);
   digitalWrite(Right_Pin, HIGH);
-  digitalWrite(Back_Pin, LOW);
-  
-  stateNumber = 5;
+  digitalWrite(Back_Pin, LOW); 
 }
 
 void topFrontControl() {
   Serial.println("Top Front Control");
+  stateNumber = 0;
   
-  //read the current position 
-  //int currentPos = YawServo.read();
-  //do something with the current position
-  //doSomething();
   //detach servo
   YawServo.detach();
   //attach servo to Top Light
   YawServo.attach(servoPinYaw_TF);
+  YawServo.write(currentPos[stateNumber]);
   
   digitalWrite(TopFront_Pin, HIGH);
   digitalWrite(BottomFront_Pin, LOW);
   digitalWrite(Left_Pin, LOW);
   digitalWrite(Right_Pin, LOW);
   digitalWrite(Back_Pin, LOW);
-  
-  stateNumber = 0;
 }
 
 void bottomFrontControl() {
   Serial.println("Bottom Front Control");
-  
-  //read the current position 
-  //int currentPos = YawServo.read();
-  //do something with the current position
-  //doSomething();
+  stateNumber = 1;
   //detach servo
   YawServo.detach();
   //attach servo to Top Light
   YawServo.attach(servoPinYaw_BF);
+  YawServo.write(currentPos[stateNumber]);
   
   digitalWrite(TopFront_Pin, LOW);
   digitalWrite(BottomFront_Pin, HIGH);
   digitalWrite(Left_Pin, LOW);
   digitalWrite(Right_Pin, LOW);
   digitalWrite(Back_Pin, LOW);
-  
-  stateNumber = 1;
 }
 
 void leftControl() {
   Serial.println("Left Control");
+  stateNumber = 2;
+  //detach servo
+  YawServo.detach();
+  //attach servo to Top Light
+  YawServo.attach(servoPinYaw_L);
+  YawServo.write(currentPos[stateNumber]);
   
   digitalWrite(TopFront_Pin, LOW);
   digitalWrite(BottomFront_Pin, LOW);
   digitalWrite(Left_Pin, HIGH);
   digitalWrite(Right_Pin, LOW);
   digitalWrite(Back_Pin, LOW);
-  
-  stateNumber = 2;
 }
 
 void rightControl() {
   Serial.println("Right Control");
-  
-  //read the current position 
-  //int currentPos = YawServo.read();
-  //do something with the current position
-  //doSomething();
+  stateNumber = 3;
   //detach servo
   YawServo.detach();
   //attach servo to Top Light
-  //YawServo.attach(servoPinYaw_TF);
+  YawServo.attach(servoPinYaw_R);
+  YawServo.write(currentPos[stateNumber]);
   
   digitalWrite(TopFront_Pin, LOW);
   digitalWrite(BottomFront_Pin, LOW);
   digitalWrite(Left_Pin, LOW);
   digitalWrite(Right_Pin, HIGH);
   digitalWrite(Back_Pin, LOW);
-  
-  stateNumber = 3;
 }
 
 void backControl() {
   Serial.println("Back Control");
+  stateNumber = 4;
   
-  //read the current position 
-  //int currentPos = YawServo.read();
-  //do something with the current position
-  //doSomething();
   //detach servo
   YawServo.detach();
   //attach servo to Top Light
-  //YawServo.attach(servoPinYaw_TF);
+  YawServo.attach(servoPinYaw_B );
+  YawServo.write(currentPos[stateNumber]);
   
   digitalWrite(TopFront_Pin, LOW);
   digitalWrite(BottomFront_Pin, LOW);
@@ -116,6 +102,6 @@ void backControl() {
   digitalWrite(Right_Pin, LOW);
   digitalWrite(Back_Pin, HIGH);
   
-  stateNumber = 4;
+  
 }
 

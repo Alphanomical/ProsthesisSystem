@@ -4,7 +4,8 @@
 void nextStateDEBOUNCE()
 {
   if((long)(micros()-last_time)>=debounce_time*1000)
-  {
+  { 
+    currentPos[stateNumber] = YawServo.read();
     nextState();
     last_time=micros();
   }
