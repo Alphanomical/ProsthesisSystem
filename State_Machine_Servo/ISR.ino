@@ -5,7 +5,9 @@ void nextStateDEBOUNCE()
 {
   if((long)(micros()-last_time)>=debounce_time*1000)
   { 
+    updateFlag = true;
     currentPos[stateNumber] = YawServo.read();
+    currentPosPITCH[stateNumber] = PitchServo.read();
     nextState();
     last_time=micros();
   }
@@ -27,6 +29,9 @@ void prevStateDEBOUNCE()
 {
   if((long)(micros()-last_time)>=debounce_time*1000)
   {
+    updateFlag = true;
+    currentPos[stateNumber] = YawServo.read();
+    currentPosPITCH[stateNumber] = PitchServo.read();
     last_time=micros();
     prevState();
   }

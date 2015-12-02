@@ -10,6 +10,9 @@ const int Left_Pin = 50;
 const int Right_Pin = 46;
 const int Back_Pin = 52;
 
+const int Multi_TF_A = 23;
+const int Multi_TF_B = 25;
+
 //utility functions
 void allControl() {
   Serial.println("All Control");
@@ -27,9 +30,15 @@ void topFrontControl() {
   
   //detach servo
   YawServo.detach();
+  PitchServo.detach();
   //attach servo to Top Light
   YawServo.attach(servoPinYaw_TF);
   YawServo.write(currentPos[stateNumber]);
+  PitchServo.attach(servoPinPitch_TF);
+  PitchServo.write(currentPosPITCH[stateNumber]);
+  
+  digitalWrite(Multi_TF_A, LOW);
+  digitalWrite(Multi_TF_B, LOW);
   
   digitalWrite(TopFront_Pin, HIGH);
   digitalWrite(BottomFront_Pin, LOW);
@@ -43,9 +52,13 @@ void bottomFrontControl() {
   stateNumber = 1;
   //detach servo
   YawServo.detach();
+  PitchServo.detach();
   //attach servo to Top Light
   YawServo.attach(servoPinYaw_BF);
   YawServo.write(currentPos[stateNumber]);
+  
+  digitalWrite(Multi_TF_A, HIGH);
+  digitalWrite(Multi_TF_B, LOW);
   
   digitalWrite(TopFront_Pin, LOW);
   digitalWrite(BottomFront_Pin, HIGH);
@@ -59,9 +72,13 @@ void leftControl() {
   stateNumber = 2;
   //detach servo
   YawServo.detach();
+  PitchServo.detach();
   //attach servo to Top Light
   YawServo.attach(servoPinYaw_L);
   YawServo.write(currentPos[stateNumber]);
+  
+  digitalWrite(Multi_TF_A, HIGH);
+  digitalWrite(Multi_TF_B, LOW);
   
   digitalWrite(TopFront_Pin, LOW);
   digitalWrite(BottomFront_Pin, LOW);
@@ -75,9 +92,13 @@ void rightControl() {
   stateNumber = 3;
   //detach servo
   YawServo.detach();
+  PitchServo.detach();
   //attach servo to Top Light
   YawServo.attach(servoPinYaw_R);
   YawServo.write(currentPos[stateNumber]);
+  
+  digitalWrite(Multi_TF_A, HIGH);
+  digitalWrite(Multi_TF_B, LOW);
   
   digitalWrite(TopFront_Pin, LOW);
   digitalWrite(BottomFront_Pin, LOW);
@@ -92,9 +113,13 @@ void backControl() {
   
   //detach servo
   YawServo.detach();
+  PitchServo.detach();
   //attach servo to Top Light
   YawServo.attach(servoPinYaw_B );
   YawServo.write(currentPos[stateNumber]);
+  
+  digitalWrite(Multi_TF_A, HIGH);
+  digitalWrite(Multi_TF_B, LOW);
   
   digitalWrite(TopFront_Pin, LOW);
   digitalWrite(BottomFront_Pin, LOW);

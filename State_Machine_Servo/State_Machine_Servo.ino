@@ -34,7 +34,9 @@ VarSpeedServo PitchServo;
 VarSpeedServo PitchServo_2;
 VarSpeedServo PitchServo_3;
 VarSpeedServo PitchServo_4;
-const int servoPinPitch_TF = 3;
+const int servoPinPitch_TF = 13;
+
+volatile int currentPosPITCH[] = {90,90,90,90,90};
 
 //Initialize States
 State All = State(allControl);
@@ -61,8 +63,12 @@ int sensorRead = 0;
 int motorSpeed = 0;
 
 //state number
+volatile boolean updateFlag = false;
 volatile byte stateNumber = 0;
 volatile byte statePowerPin[] = {24,26,28,30,32};
+
+//function prototype
+void printStatements(boolean cs_tf = false,boolean pos_tf = false);
 
 void setup()
 {
@@ -74,6 +80,7 @@ void setup()
   
   //Joystick Setup
   pinMode(joyPinYaw,INPUT);
+  pinMode(joyPinPitch,INPUT);
   
   //Set power pins as OUTPUTs and initialize
   for(int i = 0; i<sizeof(statePowerPin); i++)
@@ -95,23 +102,22 @@ void loop()
 {
   controlJoyStick(YawServo,joyPinYaw);
   
-  
-  for(int i = 0; i<sizeof(currentPos); i++)
-  {
-    pwm.setPWM(i,0,map(currentPos[i],0,180,SERVOMIN,SERVOMAX));
+  if(updateFlag==true){
+  for(int i = 0; i<sizeof(currentPos); i++){pwm.setPWM(i,0,map(currentPos[i],0,180,SERVOMIN,SERVOMAX));}
+  updateFlag=false;
   }
-  
-  
-  printStatements();
+ 
+  printStatements(true);
   
   delay(100);
 }
 
 
-void printStatements(){
-  Serial.print("Current State" );
-  Serial.print(stateNumber);
+void printStatements(boolean cs_tf, boolean pos_tf){
   
+  if(cs_tf){Serial.print("Current State: " );Serial.println(stateNumber);}
+  
+  if(pos_tf){
   Serial.print("  Positions: ");
   Serial.print(currentPos[0]);
   Serial.print(" ");
@@ -122,4 +128,6 @@ void printStatements(){
   Serial.print(currentPos[3]);
   Serial.print(" ");
   Serial.println(currentPos[4]);
+  }
+  
 }
