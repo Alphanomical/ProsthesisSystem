@@ -13,6 +13,8 @@ State Machine for Prothesis Anti-Robot's Spotlights
 
 //initialize the PWM Driver Board (using default 0x40 addy)
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+
+//Pitch Servo Limits for PWM Driver Board
 #define SERVOMIN 110
 #define SERVOMAX 595
 
