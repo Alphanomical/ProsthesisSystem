@@ -3,12 +3,12 @@
 //ISR for int.0
 void nextStateDEBOUNCE()
 {
-  if((long)(micros()-last_time)>=debounce_time*1000)
+  if((long)(micros()-last_time)>=debounce_time*1000)    //software debounce the momentary button
   { 
-    updateFlag = true;
-    currentPos[stateNumber] = YawServo.read();
-    currentPosPITCH[stateNumber] = PitchServo.read();
-    nextState();
+    updateFlag = true;                                  //flag to signal a state change
+    currentPos[stateNumber] = YawServo.read();          //Read and record the states yaw information before switching
+    currentPosPITCH[stateNumber] = PitchServo.read();   //Do same with pitch information
+    nextState();                                        //Switch to next state
     last_time=micros();
   }
 }
@@ -59,7 +59,9 @@ void off_DEBOUNCE()
   if((long)(micros()-last_time)>=debounce_time*1000)
   {
     last_time=micros();
+    //Turn the light currently being controled off
     if(stateNumber!=5){digitalWrite(statePowerPin[stateNumber],LOW);}
+    //Turn the first four lights off (this is for the "all" state)
     else{
       digitalWrite(statePowerPin[0],LOW);
       digitalWrite(statePowerPin[1],LOW);
@@ -80,7 +82,9 @@ void on_DEBOUNCE()
   if((long)(micros()-last_time)>=debounce_time*1000)
   {
     last_time=micros();
+    //Turn the light currently being controled on
     if(stateNumber!=5){digitalWrite(statePowerPin[stateNumber],HIGH);}
+    //Turn the first four lights off (this is for the "all" state)
     else{
       digitalWrite(statePowerPin[0],HIGH);
       digitalWrite(statePowerPin[1],HIGH);

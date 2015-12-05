@@ -104,6 +104,8 @@ void loop()
 {
   controlJoyStick(YawServo,joyPinYaw);
   
+  //Keep the PWM board updated with the latest position information
+  //This only happens after a state change 
   if(updateFlag==true){
   for(int i = 0; i<sizeof(currentPos); i++){pwm.setPWM(i,0,map(currentPos[i],0,180,SERVOMIN,SERVOMAX));}
   updateFlag=false;
@@ -115,6 +117,8 @@ void loop()
 }
 
 
+//Function for printing statements
+//Used primarily for debugging
 void printStatements(boolean cs_tf, boolean pos_tf){
   
   if(cs_tf){Serial.print("Current State: " );Serial.println(stateNumber);}
