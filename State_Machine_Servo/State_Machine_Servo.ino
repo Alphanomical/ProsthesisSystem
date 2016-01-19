@@ -15,6 +15,7 @@ State Machine for Prothesis Anti-Robot's Spotlights
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 //Pitch Servo Limits for PWM Driver Board
+//Pitch Servos are HXT12K
 #define SERVOMIN 110
 #define SERVOMAX 595
 
@@ -27,7 +28,7 @@ const int servoPinYaw_TF = 9;
 const int servoPinYaw_BF = 10;
 const int servoPinYaw_R = 11;
 const int servoPinYaw_L = 12;
-const int servoPinYaw_B = 13;
+int servoPinYaw_B;
 
 volatile int currentPos[] = {90,90,90,90,90};
 
@@ -103,6 +104,7 @@ void setup()
 void loop()
 {
   controlJoyStick(YawServo,joyPinYaw);
+  controlJoyStick(PitchServo,joyPinPitch);
   
   //Keep the PWM board updated with the latest position information
   //This only happens after a state change 
@@ -113,7 +115,7 @@ void loop()
  
   printStatements(true);
   
-  delay(100);
+  delay(20);
 }
 
 

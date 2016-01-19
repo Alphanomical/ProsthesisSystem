@@ -3,7 +3,6 @@
 //All Utility functions and pin assignments are here
 
 //Pins representing the lights
-//Depending on the state, either 1 or 3 lights will be controlled
 const int TopFront_Pin = 48;
 const int BottomFront_Pin = 44;
 const int Left_Pin = 50;
